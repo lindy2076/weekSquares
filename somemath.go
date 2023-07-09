@@ -9,6 +9,7 @@ const colorGreen = "\033[0;92m"
 const colorYellow = "\033[0;93m"
 const colorBlue = "\033[0;94m"
 const colorNone = "\033[0m"
+const colorDefault = ""
 const fontBold = "\033[1m"
 
 // TODO generate based on years
@@ -20,11 +21,11 @@ func stringFrom(yearsTotal uint, weeksPassed uint) string {
 
 	for i := 0; i < rows*columns; i++ {
 		if i < int(weeksPassed) {
-			res += colorRed + "x" + colorNone
+			res += color("■", colorRed)
 		} else if i == int(weeksPassed) {
-			res += colorYellow + fontBold + "?" + colorNone
+			res += color("?", colorYellow+fontBold)
 		} else {
-			res += fontBold + "." + colorNone
+			res += color(".", colorDefault+fontBold)
 		}
 		if (i+1)%columns == 0 {
 			res += "\n "
@@ -39,4 +40,8 @@ func printSquares(years uint, weeksPassed uint, trySquare bool) {
 	fmt.Printf("\nThis is your life. Every dot represents a week till you are %d yo.\n", years)
 	fmt.Printf("Every 'x' is a week that can never be brought back. There are already %d 'x'.\n", weeksPassed)
 	fmt.Println("Is there something valuable that you did this week..?")
+}
+
+func color(msg string, color string) string {
+	return color + msg + colorNone
 }

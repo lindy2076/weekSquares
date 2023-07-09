@@ -6,23 +6,29 @@ import (
 	"time"
 )
 
-// todo: customize colors of everything, symbols for everything, dob
+// todo: customize colors, symbols of everything, dob
 func main() {
-	years := 80
-	var t2 string
-	flag.StringVar(&t2, "dob", "2023-07-01", "your date of birth")
+	var yearsExpected uint
+	var userDoB string
+	flag.StringVar(&userDoB, "dob", "2023-07-09", "your date of birth")
+	flag.UintVar(&yearsExpected, "y", 80, "your life expectancy")
 	flag.Parse()
 
-	dob, err := time.Parse(time.DateOnly, t2)
+	dob := parseDoB(userDoB)
+	sinceDoB := time.Since(dob)
+
+	weeksPassed := uint(sinceDoB.Hours() / 24 / 7)
+
+	printSquares(uint(yearsExpected), weeksPassed, false)
+}
+
+func parseDoB(userflag string) time.Time {
+	dob, err := time.Parse(time.DateOnly, userflag)
 	if err != nil {
-		log.Fatal("The date passed is badly formated!!: ", err)
+		log.Fatal("The given date is badly formatted")
 	}
 	if dob.After(time.Now()) {
-		log.Fatal("The date passed is after current date!!")
+		log.Fatal("The given date is after")
 	}
-	diff := time.Since(dob)
-
-	weeksPassed := uint(diff.Hours() / 24 / 7)
-
-	printSquares(uint(years), weeksPassed, false)
+	return dob
 }
