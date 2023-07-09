@@ -11,6 +11,7 @@ const colorBlue = "\033[0;94m"
 const colorNone = "\033[0m"
 const fontBold = "\033[1m"
 
+// TODO generate based on years
 func stringFrom(yearsTotal uint, weeksPassed uint) string {
 	// weeks := yearsTotal * 365 / 7
 
